@@ -8,9 +8,9 @@ import Error from '../pages/Error';
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/inventory" element={<Inventory />} />
-      <Route path="/" element={<Cases />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/inventory/:id" element={<Inventory />} />
+      <Route path="/:id" element={<Cases />} />
+      <Route path="/profile/:id" element={<Profile />} />
       <Route path="*" element={<Error />} />
     </Routes>
   );

@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
+  const { id } = useParams();
+
   return (
     <div className="navbar">
       <nav className="navbar-links">
-        <Link to="/inventory">Инвентарь</Link>
-        <Link to="/">Кейсы</Link>
-        <Link to="/profile">Профиль</Link>
+        <Link to={`/inventory/${id}`}>Инвентарь</Link>
+        <Link to={`/${id}`}>Кейсы</Link>
+        <Link to={`/profile/${id}`}>Профиль</Link>
       </nav>
     </div>
   );

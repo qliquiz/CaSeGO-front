@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CaSeGO-front/static/css/main.d663351d.css",
+    "main.js": "/CaSeGO-front/static/js/main.5b85afb4.js",
+    "index.html": "/CaSeGO-front/index.html",
+    "main.d663351d.css.map": "/CaSeGO-front/static/css/main.d663351d.css.map",
+    "main.5b85afb4.js.map": "/CaSeGO-front/static/js/main.5b85afb4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d663351d.css",
+    "static/js/main.5b85afb4.js"
+  ]
+}

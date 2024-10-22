@@ -11,7 +11,7 @@ const Inventory = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/1628918728`);
+        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/CaSeGO-front/inventory/1628918728`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }

@@ -7,9 +7,9 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <nav className="navbar-links">
-        <Link to={`/inventory/${id}`}>Инвентарь</Link>
-        <Link to="/">Кейсы</Link>
-        <Link to="/profile">Профиль</Link>
+        <Link to={`/CaSeGO-front/inventory/${id}`}>Инвентарь</Link>
+        <Link to="/CaSeGO-front/">Кейсы</Link>
+        <Link to="/CaSeGO-front/profile">Профиль</Link>
       </nav>
     </div>
   );

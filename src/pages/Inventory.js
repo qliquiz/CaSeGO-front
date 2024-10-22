@@ -11,12 +11,13 @@ const Inventory = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/inventory/${id}`);
+        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/1628918728`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }
         const data = await response.json();
-        setItems(data);
+        const parsedData = JSON.parse(data.data);
+        setItems(parsedData);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -39,7 +40,7 @@ const Inventory = () => {
     <div className="inventory-page">
       <h1>Инвентарь</h1>
       <div className="inventory-list">
-        {items.data.map((item, index) => (
+        {items.map((item, index) => (
           <div key={index} className="inventory-item">
             {/* <img src={item.image} alt={item.name} /> */}
             <h6>{item.name}</h6>

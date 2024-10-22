@@ -1,0 +1,32 @@
+.inventory-page {
+  padding: 20px;
+}
+
+.inventory-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.inventory-item {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+.inventory-item h3 {
+  margin: 10px 0;
+}
+
+.inventory-item p {
+  color: #666;
+}

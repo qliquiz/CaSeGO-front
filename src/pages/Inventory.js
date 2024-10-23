@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import '../styles/Inventory.css';
 
 const Inventory = () => {
-  const { id } = useParams();
+  const { userId } = useUser(null);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const Inventory = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/1628918728`);
+        const response = await fetch(`http://localhost:3000/inventory/${userId}`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }
@@ -26,7 +26,7 @@ const Inventory = () => {
     };
 
     fetchInventory();
-  }, [id]);
+  }, [userId]);
 
   if (loading) {
     return <p>Загрузка инвентаря...</p>;

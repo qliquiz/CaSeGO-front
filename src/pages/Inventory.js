@@ -11,7 +11,7 @@ const Inventory = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/inventory/${userId}`);
+        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/${userId}`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }

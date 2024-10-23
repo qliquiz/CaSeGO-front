@@ -10,6 +10,7 @@ function App() {
 
   useEffect(() => {
     if (window.Telegram?.WebApp) {
+      window.Telegram?.WebApp.ready();
       const telegramUser = window.Telegram.WebApp.initDataUnsafe?.user;
       if (telegramUser) {
         console.log('ID: ', telegramUser.id);

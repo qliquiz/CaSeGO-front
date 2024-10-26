@@ -13,7 +13,7 @@ const Start = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/`, {
+      const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

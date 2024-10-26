@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/CaSeGO-front/static/css/main.41d81768.css",
-    "main.js": "/CaSeGO-front/static/js/main.b06f8c36.js",
+    "main.js": "/CaSeGO-front/static/js/main.c32721c2.js",
     "index.html": "/CaSeGO-front/index.html",
     "main.41d81768.css.map": "/CaSeGO-front/static/css/main.41d81768.css.map",
-    "main.b06f8c36.js.map": "/CaSeGO-front/static/js/main.b06f8c36.js.map"
+    "main.c32721c2.js.map": "/CaSeGO-front/static/js/main.c32721c2.js.map"
   },
   "entrypoints": [
     "static/css/main.41d81768.css",
-    "static/js/main.b06f8c36.js"
+    "static/js/main.c32721c2.js"
   ]
 }

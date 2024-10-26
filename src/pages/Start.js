@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Start.css';
 
 const Start = () => {
-  const { user } = useUser(null);
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();

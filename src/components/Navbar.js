@@ -3,7 +3,7 @@ import { useUser } from '../contexts/UserContext';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
-  const { user } = useUser(null);
+  const { user } = useUser();
 
   return (
     <div className="navbar">

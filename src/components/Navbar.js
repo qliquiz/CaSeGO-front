@@ -1,15 +1,16 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import '../styles/Navbar.css';
 
 const Navbar = () => {
-  const { id } = useParams();
+  const { user } = useUser(null);
 
   return (
     <div className="navbar">
       <nav className="navbar-links">
-        <Link to={`/inventory/${id || ''}`}>Инвентарь</Link>
+        <Link to={`/inventory/${user.id}`}>Инвентарь</Link>
         <Link to="/cases">Кейсы</Link>
-        <Link to={`/profile/${id || ''}`}>Профиль</Link>
+        <Link to={`/profile/${user.id}`}>Профиль</Link>
       </nav>
     </div>
   );

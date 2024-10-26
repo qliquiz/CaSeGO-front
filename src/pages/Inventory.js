@@ -16,8 +16,12 @@ const Inventory = () => {
           throw new Error('Ошибка загрузки данных');
         }
         const data = await response.json();
-        const parsedData = JSON.parse(data.data);
-        setItems(parsedData);
+        const parsedData = data.data ? JSON.parse(data.data) : [];
+        if (Array.isArray(parsedData)) {
+          setItems(parsedData);
+        } else {
+          throw new Error("Ошибка данных: ожидается массив");
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -31,13 +35,11 @@ const Inventory = () => {
   if (loading) {
     return <p>Загрузка инвентаря...</p>;
   }
-
   if (error) {
     return <p>Ошибка: {error}</p>;
   }
-
   if (!items.length) {
-    return <p>Инвентарь пуст</p>;
+    return <p>Инвентарь пока пуст</p>;
   }
 
   return (

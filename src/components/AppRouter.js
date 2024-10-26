@@ -9,7 +9,6 @@ import Navbar from './Navbar';
 
 const AppRouter = () => {
   return (
-    <>
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/inventory/:id" element={<><Navbar /><Inventory /></>} />
@@ -17,7 +16,6 @@ const AppRouter = () => {
         <Route path="/profile/:id" element={<><Navbar /><Profile /></>} />
         <Route path="*" element={<Error />} />
       </Routes>
-    </>
   );
 }
 

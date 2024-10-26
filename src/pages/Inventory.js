@@ -3,7 +3,7 @@ import { useUser } from '../contexts/UserContext';
 import '../styles/Inventory.css';
 
 const Inventory = () => {
-  const { userId } = useUser(null);
+  const { id } = useUser(null)?.id;
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const Inventory = () => {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/${userId}`);
+        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/inventory/${id}`);
         if (!response.ok) {
           throw new Error('Ошибка загрузки данных');
         }
@@ -26,7 +26,7 @@ const Inventory = () => {
     };
 
     fetchInventory();
-  }, [userId]);
+  }, [id]);
 
   if (loading) {
     return <p>Загрузка инвентаря...</p>;

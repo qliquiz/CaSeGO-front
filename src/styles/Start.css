@@ -1,0 +1,17 @@
+.start-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.start-page button {
+  border: 0px;
+  border-radius: 30px;
+  padding: 20px 60px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}

@@ -24,9 +24,9 @@ function App() {
 
   return (
     <HashRouter>
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Start />} />
-      </Routes>
+      </Routes> */}
       <AppRouter/>
         <Navbar />
     </HashRouter>

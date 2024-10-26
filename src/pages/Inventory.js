@@ -36,6 +36,10 @@ const Inventory = () => {
     return <p>Ошибка: {error}</p>;
   }
 
+  if (!items.length) {
+    return <p>Инвентарь пуст</p>;
+  }
+
   return (
     <div className="inventory-page">
       <h1>Инвентарь</h1>

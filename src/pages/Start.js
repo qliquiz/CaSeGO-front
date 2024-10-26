@@ -4,17 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Start.css';
 
 const Start = () => {
-  const { user } = useUser(null);
-  const [loading, setLoading] = useState(true);
+  const { user } = useUser();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const navigate = useNavigate();
 
   const handleStart = async () => {
-    const data = {
-      id: user.id,
-      name: user.username,
-    }
+    setLoading(true);
 
     try {
       const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/`, {
@@ -22,7 +18,7 @@ const Start = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ id: user.id, name: user.username }),
       });
       
       if (response.ok) {
@@ -37,13 +33,8 @@ const Start = () => {
     }
   };
 
-  if (loading) {
-    return <p>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p>Ошибка: {error}</p>;
-  }
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <p>Ошибка: {error}</p>;
 
   return (
     <div className="start-page">

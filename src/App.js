@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import './styles/App.css';
-import Start from './pages/Start';
 import AppRouter from './components/AppRouter';
-import Navbar from './components/Navbar';
 import { useUser } from './contexts/UserContext';
 
 function App() {
@@ -24,11 +22,7 @@ function App() {
 
   return (
     <HashRouter>
-      {/* <Routes>
-        <Route path="/" element={<Start />} />
-      </Routes> */}
-      <AppRouter/>
-        <Navbar />
+      <AppRouter />
     </HashRouter>
   );
 }

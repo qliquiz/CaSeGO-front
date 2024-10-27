@@ -1,0 +1,43 @@
+.cases-page {
+  text-align: center;
+}
+
+.roulette-container {
+  position: relative;
+  width: 400px;
+  height: 100px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 2px solid #333;
+}
+
+.roulette {
+  display: flex;
+}
+
+.roulette-item {
+  width: 100px;
+  height: 100px;
+  margin: 0 5px;
+}
+
+.roulette-pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: red;
+}
+
+/* Быстрая прокрутка */
+@keyframes spin-fast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-1000px); } /* Можно настроить для нужной скорости */
+}
+
+/* Замедленная остановка */
+@keyframes spin-slow {
+  0% { transform: translateX(-1000px); }
+  100% { transform: translateX(-1200px); } /* Подстройте для плавного останова */
+}

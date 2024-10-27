@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUser } from '../contexts/UserContext';
+import '../styles/profile.css'
 
 const Profile = () => {
   const { user } = useUser();

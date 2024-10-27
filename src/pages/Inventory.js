@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Inventory.css';
+import '../styles/inventory.css';
 import { useParams } from 'react-router-dom';
 
 const Inventory = () => {

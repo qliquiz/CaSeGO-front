@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Start.css';
+import '../styles/start.css';
 
 const Start = () => {
   const { user } = useUser();

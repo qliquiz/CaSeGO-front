@@ -1,0 +1,2 @@
+.cases-page{text-align:center}.roulette-container{border:2px solid #333;height:100px;margin:0 auto;overflow:hidden;position:relative;width:400px}.roulette{display:flex}.roulette-item{height:100px;margin:0 5px;width:100px}.roulette-pointer{color:red;font-size:24px;left:50%;position:absolute;top:-15px;transform:translateX(-50%)}@keyframes spin-fast{0%{transform:translateX(0)}to{transform:translateX(-1000px)}}@keyframes spin-slow{0%{transform:translateX(-1000px)}to{transform:translateX(-1200px)}}
+/*# sourceMappingURL=main.2ab694c9.css.map*/

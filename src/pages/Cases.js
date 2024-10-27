@@ -53,21 +53,18 @@ const Cases = () => {
     setIsRolling(true);
     setSelectedImage(null);
 
-    // Начинаем быструю анимацию
     rouletteRef.current.style.animation = 'spin-fast 3s linear infinite';
 
     setTimeout(() => {
-      // Через 7 секунд переключаемся на замедление и останавливаем рулетку
       rouletteRef.current.style.animation = 'spin-slow 4s ease-out forwards';
 
-      // Через 4 секунды получаем результат
       setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * images.length);
         setSelectedImage(images[randomIndex]);
         console.log('Выигранная картинка:', images[randomIndex]);
         setIsRolling(false);
       }, 5000);
-    }, 2000); // Первоначальная быстрая прокрутка 3 секунды
+    }, 2000);
   };
 
   return (

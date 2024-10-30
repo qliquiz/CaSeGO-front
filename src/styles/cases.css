@@ -1,43 +1,57 @@
 .cases-page {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .roulette-container {
   position: relative;
-  width: 400px;
-  height: 100px;
-  margin: 0 auto;
+  width: 80%;
+  max-width: 500px;
   overflow: hidden;
-  border: 2px solid #333;
 }
 
 .roulette {
   display: flex;
 }
 
-.roulette-item {
-  width: 100px;
+.roulette img {
+  width: 250px;
   height: 100px;
-  margin: 0 5px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .roulette-pointer {
   position: absolute;
-  top: -15px;
+  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 24px;
-  color: red;
+  width: 2px;
+  background-color: yellow;
+  z-index: 2;
 }
 
-/* Быстрая прокрутка */
-@keyframes spin-fast {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-1000px); } /* Можно настроить для нужной скорости */
+/* Внутренние тени */
+.roulette-container::before,
+.roulette-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Замедленная остановка */
-@keyframes spin-slow {
-  0% { transform: translateX(-1000px); }
-  100% { transform: translateX(-1200px); } /* Подстройте для плавного останова */
+.roulette-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.roulette-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
 }

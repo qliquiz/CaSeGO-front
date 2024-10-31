@@ -52,7 +52,7 @@ const Cases = () => {
 
   return (
     <div className="cases-page">
-      <h1>Открытие кейсов</h1>
+      <h1>Cases</h1>
       <div className="roulette-container">
         <div className="roulette" ref={rouletteRef}>
           {createLongRandomArray(images, images.length * 10).map((image, index) => (
@@ -61,9 +61,9 @@ const Cases = () => {
         </div>
         <div className="roulette-pointer"></div>
       </div>
-      <button onClick={startRolling} disabled={isRolling}>
-        {isRolling ? 'Крутится...' : 'Запустить'}
-      </button>
+      <div className="roulette-btn" onClick={startRolling} disabled={isRolling}>
+        {isRolling ? 'Открывается...' : 'Открыть'}
+      </div>
       {selectedImage && <p>Выпавший предмет: {selectedImage}</p>}
     </div>
   );

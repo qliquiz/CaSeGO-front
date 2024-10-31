@@ -10,6 +10,9 @@
   width: 80%;
   max-width: 500px;
   overflow: hidden;
+  background-color: rgb(30, 30, 30);
+  /* box-shadow: 0 0 25px 2.5px rgb(41, 0, 62); */
+  /* border-radius: 5px; */
 }
 
 .roulette {
@@ -17,10 +20,14 @@
 }
 
 .roulette img {
-  width: 250px;
+  width: 130px;
   height: 100px;
   object-fit: cover;
-  border-radius: 5px;
+}
+
+.roulette-item {
+  margin: 0 2px;
+  background-color: #333;
 }
 
 .roulette-pointer {
@@ -29,8 +36,8 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 2px;
-  background-color: yellow;
+  width: 1px;
+  background-color: rgba(238, 255, 0, 0.5);
   z-index: 2;
 }
 
@@ -48,10 +55,21 @@
 
 .roulette-container::before {
   left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9), transparent);
 }
 
 .roulette-container::after {
   right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.roulette-btn {
+  border: 0px;
+  border-radius: 5px;
+  padding: 10px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  color: white;
+  background-color: rgb(39, 166, 10);
 }

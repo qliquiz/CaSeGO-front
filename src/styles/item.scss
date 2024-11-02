@@ -1,0 +1,76 @@
+.ev-weapon {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+}
+
+.ev-weapon-inner {
+  width: 190px;
+  height: 190px;
+  position: relative;
+  background: #282c36;
+  margin-right: 10px;
+}
+
+.ev-weapon-rarity {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.ev-weapon-rarity.milspec {
+  background: #4b69ff;
+}
+
+.ev-weapon-rarity.restricted {
+  background: #8847ff;
+}
+
+.ev-weapon-rarity.classified {
+  background: #d32ce6;
+}
+
+.ev-weapon-rarity.covert {
+  background: #eb4b4b;
+}
+
+.ev-weapon-rarity.rare {
+  background: #ffd700;
+}
+
+.ev-weapon-rarity.uncommon {
+  background: #ddd;
+}
+
+.ev-weapon-inner img {
+  width: 160px;
+  height: 120px;
+  position: absolute;
+  top: 5px;
+  left: 13px;
+}
+
+.ev-weapon-text {
+  position: absolute;
+  bottom: 10px;
+  width: 190px;
+  height: 50px;
+  background: #242531;
+}
+
+.ev-weapon-text p {
+  height: 15px;
+  line-height: 15px;
+  color: #e4e4e4;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ev-weapon-text p:first-child {
+  margin-top: 12px;
+}

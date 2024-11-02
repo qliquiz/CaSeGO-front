@@ -1,0 +1,50 @@
+$rouletteHeight: 190px;
+
+.roulette-wrapper {
+  margin-top: 150px;
+  position: relative;
+}
+
+.ev-roulette {
+  margin: 0 auto;
+  width: 1400px;
+  height: $rouletteHeight;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 4px #1a1b22;
+  border: 1px solid #232730;
+  border-radius: 5px;
+}
+
+.ev-target {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: $rouletteHeight;
+  background: #f1cd01aa;
+  z-index: 1100;
+}
+
+.ev-weapons {
+  height: $rouletteHeight;
+  white-space: nowrap;
+  position: relative;
+  left: 0;
+}
+
+.button {
+  font-size: 20px;
+  display: block;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1dc300;
+  color: #fff;
+  margin: 30px auto 0;
+
+  &:disabled {
+    background-color: #245d00;
+    color: rgba(#fff, 0.6);
+  }
+}

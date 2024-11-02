@@ -3,10 +3,10 @@ import { useUser } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import '../styles/start.css';
 
-const Start = () => {
+const Start: React.FC = () => {
   const { user } = useUser();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleStart = async () => {
@@ -18,16 +18,12 @@ const Start = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: user.id, name: user.username }),
+        body: JSON.stringify({ id: user?.id, name: user?.username }),
       });
-      
-      if (response.ok) {
-        navigate('/cases');
-      } else {
-        console.error('Ошибка при запросе');
-      }
+      if (response.ok) navigate('/cases');
+      else setError('Ошибка при запросе');
     } catch (error) {
-      setError(error.message);
+      setError((error as Error).message);
     } finally {
       setLoading(false);
     }
@@ -39,7 +35,7 @@ const Start = () => {
   return (
     <div className="start-page">
       <h1>CaSeGO</h1>
-      <button onClick={handleStart}>Start</button>
+      <button onClick={handleStart} disabled={loading}>Start</button>
     </div>
   );
 };

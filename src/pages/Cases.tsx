@@ -67,11 +67,12 @@ const Cases = ({
       setIsSpin(true)
       setWeaponPrizeId(roulette.spin())
       setIsReplay(true)
-    }, 1000)
+    }, 100)
   }
 
   return (
     <div>
+      <h1>Cases</h1>
       <div className='roulette-wrapper'>
         <div ref={rouletteContainerRef}>
           <div className='ev-roulette'>

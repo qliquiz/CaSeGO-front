@@ -1,13 +1,13 @@
-$rouletteHeight: 190px;
+$rouletteHeight: 112px;
 
 .roulette-wrapper {
-  margin-top: 150px;
+  margin-top: 20px;
   position: relative;
 }
 
 .ev-roulette {
   margin: 0 auto;
-  width: 1400px;
+  width: 400px;
   height: $rouletteHeight;
   overflow: hidden;
   position: relative;
@@ -34,14 +34,14 @@ $rouletteHeight: 190px;
 }
 
 .button {
-  font-size: 20px;
   display: block;
-  padding: 10px 40px;
+  font-size: 12px;
+  padding: 6px 20px;
+  margin: 18px auto 0;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #1dc300;
   color: #fff;
-  margin: 30px auto 0;
 
   &:disabled {
     background-color: #245d00;

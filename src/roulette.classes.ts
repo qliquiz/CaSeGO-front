@@ -79,7 +79,7 @@ export class Roulette {
 
     this.transitionDuration = attrs.transitionDuration || 10
 
-    this.itemWidth = attrs.itemWidth || 200
+    this.itemWidth = attrs.itemWidth || 110
   }
 
   private randomRange = (min: number, max: number) => {
@@ -128,23 +128,19 @@ export class Roulette {
     this.weapons = weapons;
   };
 
-  // ВРАЩЕНИЕ РУЛЕТКИ
   spin = () => {
     let el_weapon_width_1_2 = Math.floor(this.itemWidth / 2)
     let el_weapon_width_1_20 = Math.floor(this.itemWidth / 20)
 
-    // рандомная координата остановки
-    const randStop = (this.weaponPrizeId - 4) * this.itemWidth +
-      el_weapon_width_1_2 +
-      this.randomRange(el_weapon_width_1_20, (18 * el_weapon_width_1_20))
+    const randStop = (this.weaponPrizeId - 1) * this.itemWidth + el_weapon_width_1_2 +
+      this.randomRange(el_weapon_width_1_20, (18 * el_weapon_width_1_20)) - 80;
 
-    // анимация теперь через 'transition', а не через 'animation'
-    // 'ease-out' -- это плавное замедление рулетки
+    console.log('prize id = ' + this.weaponPrizeId);
+    console.log('random stop = ' + randStop);
+
     // @ts-ignore
     this.weaponWrapper.current.style.transition = `left ${this.transitionDuration}s ease-out`;
 
-    // немного отложенный старт
-    // (ибо нельзя сразу установить css-свойство 'left')
     setTimeout(() => {
       // @ts-ignore
       this.weaponWrapper!.current.style.left = `-${randStop}px`;

@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "https://qliquiz.github.io/CaSeGO-front/static/css/main.3e8be0fa.css",
-    "main.js": "https://qliquiz.github.io/CaSeGO-front/static/js/main.3071353b.js",
+    "main.css": "https://qliquiz.github.io/CaSeGO-front/static/css/main.b352cbf3.css",
+    "main.js": "https://qliquiz.github.io/CaSeGO-front/static/js/main.ae386699.js",
     "index.html": "https://qliquiz.github.io/CaSeGO-front/index.html",
-    "main.3e8be0fa.css.map": "https://qliquiz.github.io/CaSeGO-front/static/css/main.3e8be0fa.css.map",
-    "main.3071353b.js.map": "https://qliquiz.github.io/CaSeGO-front/static/js/main.3071353b.js.map"
+    "main.b352cbf3.css.map": "https://qliquiz.github.io/CaSeGO-front/static/css/main.b352cbf3.css.map",
+    "main.ae386699.js.map": "https://qliquiz.github.io/CaSeGO-front/static/js/main.ae386699.js.map"
   },
   "entrypoints": [
-    "static/css/main.3e8be0fa.css",
-    "static/js/main.3071353b.js"
+    "static/css/main.b352cbf3.css",
+    "static/js/main.ae386699.js"
   ]
 }

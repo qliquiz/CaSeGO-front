@@ -48,3 +48,13 @@ $rouletteHeight: 112px;
     color: rgba(#fff, 0.6);
   }
 }
+
+@media (max-width: 400px) {
+  .ev-roulette {
+    width: 350px;
+  }
+
+  .ev-target {
+    width: 1px;
+  }
+}

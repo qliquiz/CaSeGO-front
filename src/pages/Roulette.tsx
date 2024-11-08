@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
-import { Roulette, weaponAttributes } from '../roulette.classes';
+import { RouletteClass, weaponAttributes } from '../roulette.classes';
 import Item from '../components/Item';
 import '../styles/cases.scss'
 import '../styles/item.scss';
+import ToggleCasesContent from '../components/ToggleCasesContent';
 
 interface RouletteElementParams {
   weapons: weaponAttributes[],
@@ -10,7 +11,7 @@ interface RouletteElementParams {
   transitionDuration: number
 }
 
-const Cases = ({
+const Roulette = ({
   weapons,
   weaponsCount,
   transitionDuration
@@ -40,7 +41,7 @@ const Cases = ({
   function load() {
     let winner = weapons[Math.floor(Math.random() * weapons.length)];
 
-    const roulette = new Roulette({
+    const roulette = new RouletteClass({
       winner,
       weapons,
       rouletteContainerRef,
@@ -92,12 +93,13 @@ const Cases = ({
             </div>
           </div>
         </div>
-        <button className='button' disabled={isSpin} onClick={play}>
-          {isSpin ? 'Открывается...' : 'Открыть'}
-        </button>
       </div>
+      <button className='button' disabled={isSpin} onClick={play}>
+        {isSpin ? 'Открывается...' : 'Открыть'}
+      </button>
+      <ToggleCasesContent />
     </div>
   );
 };
 
-export default Cases;
+export default Roulette;

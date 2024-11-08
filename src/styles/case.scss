@@ -1,0 +1,41 @@
+.case {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin-right: -9px;
+}
+
+.case-inner {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  background: #282c36;
+}
+
+.case-inner img {
+  position: absolute;
+  width: 90px;
+  height: 70px;
+  top: 3px;
+  left: 10px;
+}
+
+.case-text {
+  position: absolute;
+  bottom: 10px;
+  background: #242531;
+  width: 70px;
+  height: 20px;
+}
+
+.case-text p {
+  color: #e4e4e4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 6px;
+  height: 10px;
+  line-height: 10px;
+  margin-top: 3px;
+  font-weight: 700;
+}

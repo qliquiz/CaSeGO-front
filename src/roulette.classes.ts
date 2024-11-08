@@ -40,7 +40,7 @@ export interface rouletteAttributes {
 }
 
 // КЛАСС РУЛЕТКИ
-export class Roulette {
+export class RouletteClass {
 
   winner: weaponAttributes
   allWeapons: weaponAttributes[]
@@ -129,12 +129,19 @@ export class Roulette {
   };
 
   spin = () => {
+    let randStop = 0;
+    const screenWidth = window.innerWidth;
+    console.log('screenWidth = ' + screenWidth);
     let el_weapon_width_1_2 = Math.floor(this.itemWidth / 2)
-    let el_weapon_width_1_20 = Math.floor(this.itemWidth / 20)
+    let el_weapon_width_1_10 = Math.floor(this.itemWidth / 10)
 
-    const randStop = (this.weaponPrizeId - 1) * this.itemWidth + el_weapon_width_1_2 +
-      this.randomRange(el_weapon_width_1_20, (18 * el_weapon_width_1_20)) - 80;
-
+    if (screenWidth < 400) {
+      randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
+      this.randomRange(el_weapon_width_1_10, (8 * el_weapon_width_1_10)) + 40;
+    } else {
+      randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
+      this.randomRange(el_weapon_width_1_10, (8 * el_weapon_width_1_10)) + 40;
+    }
     console.log('prize id = ' + this.weaponPrizeId);
     console.log('random stop = ' + randStop);
 

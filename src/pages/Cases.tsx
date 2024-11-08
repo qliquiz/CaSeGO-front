@@ -4,6 +4,7 @@ import Item from '../components/Item';
 import '../styles/cases.scss'
 import '../styles/item.scss';
 import ToggleCasesContent from '../components/ToggleCasesContent';
+import Case, { CaseProps } from '../components/Case';
 
 interface RouletteElementParams {
   weapons: weaponAttributes[],
@@ -11,7 +12,7 @@ interface RouletteElementParams {
   transitionDuration: number
 }
 
-const Roulette = ({
+const Cases = ({
   weapons,
   weaponsCount,
   transitionDuration
@@ -23,7 +24,8 @@ const Roulette = ({
   const [isSpin, setIsSpin] = useState<boolean>(false)
   const [isSpinEnd, setIsSpinEnd] = useState<boolean>(false)
   const [winHistory, setWinHistory] = useState<weaponAttributes[]>([])
-
+  const [selectedCase, setSelectedCase] = useState<CaseProps | null>(null);
+  const [showRoulette, setShowRoulette] = useState<boolean>(false);
   const rouletteContainerRef = useRef<HTMLDivElement>(null)
   const weaponsRef = useRef<HTMLDivElement>(null)
 
@@ -61,6 +63,7 @@ const Roulette = ({
       prepare()
     }
     setIsSpin(true)
+    setShowRoulette(true);
 
     const roulette = load()
 
@@ -74,13 +77,14 @@ const Roulette = ({
   return (
     <div>
       <h1>Cases</h1>
-      <div className='roulette-wrapper'>
-        <div ref={rouletteContainerRef}>
+
+      {showRoulette ? (
+        <div className='roulette-wrapper' ref={rouletteContainerRef}>
           <div className='ev-roulette'>
             <div className='ev-target'></div>
             <div ref={weaponsRef} className='ev-weapons' onTransitionEnd={transitionEndHandler}>
-              {rouletteWeapons.map((w, i) => {
-                return <Item
+              {rouletteWeapons.map((w, i) => (
+                <Item
                   key={i}
                   id={i}
                   isLoser={(i !== weaponPrizeId) && !isSpin && isSpinEnd}
@@ -89,17 +93,29 @@ const Roulette = ({
                   rarity={w.rarity}
                   steam_image={w.steam_image}
                 />
-              })}
+              ))}
             </div>
           </div>
         </div>
-      </div>
-      <button className='button' disabled={isSpin} onClick={play}>
+      ) : (selectedCase ?
+        <div className="selected-case">
+          <Case id={selectedCase.id} name={selectedCase.name} image={selectedCase.image} />
+        </div>
+        : <p>Choose a case</p>
+      )}
+
+      <button className='button' disabled={isSpin || !selectedCase} onClick={play}>
         {isSpin ? 'Открывается...' : 'Открыть'}
       </button>
-      <ToggleCasesContent />
+
+      <ToggleCasesContent
+        selectedCase={selectedCase}
+        setSelectedCase={setSelectedCase}
+        setShowRoulette={setShowRoulette}
+        showRoulette={showRoulette}
+      />
     </div>
   );
 };
 
-export default Roulette;
+export default Cases;

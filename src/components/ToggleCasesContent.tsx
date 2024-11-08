@@ -1,29 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import Item, { ItemProps } from './Item';
+import React, { useEffect, useState } from 'react';
 import Case, { CaseProps } from './Case';
+import Item, { ItemProps } from './Item';
 
-const ToggleCasesContent: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState("cases");
+interface ToggleCasesContentProps {
+  selectedCase: CaseProps | null;
+  setSelectedCase: React.Dispatch<React.SetStateAction<CaseProps | null>>;
+  setShowRoulette: React.Dispatch<React.SetStateAction<boolean>>;
+  showRoulette: boolean;
+}
+
+const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
+  selectedCase,
+  setSelectedCase,
+  setShowRoulette,
+  showRoulette,
+}) => {
   const [cases, setCases] = useState<CaseProps[]>([]);
   const [items, setItems] = useState<ItemProps[]>([]);
-  const [selectedCase, setSelectedCase] = useState<CaseProps | null>(null);
-  const [showRoulette, setShowRoulette] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("cases");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = selectedTab === "cases" ? "/cases/cases" : "/cases/weapons";
+      const endpoint = selectedTab === "cases"
+        ? "cases/cases"
+        : `cases/weapons/${selectedCase?.id || 1}`;
+  
       try {
-        const response = await fetch(`https://2cfq1rkx-3000.euw.devtunnels.ms/${endpoint}`);
+        const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/${endpoint}`);
         if (!response.ok) throw new Error('Ошибка загрузки данных');
-
+  
         const data = await response.json();
         const parsedData = data.data ? JSON.parse(data.data) : [];
         if (Array.isArray(parsedData)) {
           if (selectedTab === "cases") {
             setCases(parsedData);
-            setSelectedCase(parsedData[0] || null);
+            setSelectedCase(selectedCase || parsedData[0] || null);
           } else {
             setItems(parsedData);
           }
@@ -36,35 +49,25 @@ const ToggleCasesContent: React.FC = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [selectedTab]);
+  }, [selectedTab, selectedCase, setSelectedCase]);
+  
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <p>Ошибка: {error}</p>;
 
   const handleCaseClick = (caseItem: CaseProps) => {
     setSelectedCase(caseItem);
     setShowRoulette(false);
   };
 
-  const handleOpenClick = () => {
-    setShowRoulette(true);
-  };
-
-  if (loading) return <p>Загрузка...</p>;
-  if (error) return <p>Ошибка: {error}</p>;
-
   return (
     <div>
       <div>
-        <button
-          onClick={() => setSelectedTab("cases")}
-          className={selectedTab === "cases" ? "active" : ""}
-        >
+        <button onClick={() => setSelectedTab("cases")} className={selectedTab === "cases" ? "active" : ""}>
           Кейсы
         </button>
-        <button
-          onClick={() => setSelectedTab("content")}
-          className={selectedTab === "content" ? "active" : ""}
-        >
+        <button onClick={() => setSelectedTab("content")} className={selectedTab === "content" ? "active" : ""}>
           Содержимое
         </button>
       </div>
@@ -74,25 +77,11 @@ const ToggleCasesContent: React.FC = () => {
           <button
             key={caseItem.id}
             onClick={() => handleCaseClick(caseItem)}
-            style={{
-              backgroundColor: selectedCase?.id === caseItem.id ? "lightblue" : "transparent",
-            }}
+            style={{ backgroundColor: selectedCase?.id === caseItem.id ? "lightblue" : "transparent" }}
           >
             <Case id={caseItem.id} name={caseItem.name} image={caseItem.image} />
           </button>
         ))}
-      </div>
-
-      <div className="roulette-area">
-        {showRoulette ? (
-          <div className="roulette"> Рулетка крутится... </div>
-        ) : (
-          selectedCase && (
-            <div className="selected-case">
-              <Case id={selectedCase.id} name={selectedCase.name} image={selectedCase.image} />
-            </div>
-          )
-        )}
       </div>
 
       {selectedTab === "content" && (
@@ -110,8 +99,6 @@ const ToggleCasesContent: React.FC = () => {
           ))}
         </div>
       )}
-
-      <button onClick={handleOpenClick}>Открыть</button>
     </div>
   );
 };

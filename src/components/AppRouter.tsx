@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Start from '../pages/Start';
 import Inventory from '../pages/Inventory';
-import Cases from '../pages/Roulette';
+import Cases from '../pages/Cases';
 import Profile from '../pages/Profile';
 import Error from '../pages/Error';
 import Navbar from './Navbar';

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { UserProvider } from './contexts/UserContext'; */
 import './styles/reset.scss'
 import './styles/App.scss'
-import Cases from './pages/Roulette';
+import Cases from './pages/Cases';
 import weapons from './weapons.json'
 
 const weaponsCount = 100

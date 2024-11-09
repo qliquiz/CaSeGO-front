@@ -1,0 +1,34 @@
+.options {
+  min-height: 100vh;
+  background-color: rgb(17, 17, 30);
+}
+
+.option {
+  margin-top: 20px;
+  width: 50%;
+  color: white;
+  background-color: rgb(17, 17, 30);
+  border: 0px;
+  border-radius: 20px 20px 0px 0px;
+  font-size: 10px;
+  height: 25px;
+}
+
+.deactive {
+  border-radius: 20px 20px 0px 0px;
+  background-color: rgb(42, 42, 55);
+}
+
+.case-list {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.case-button {
+  border: none;
+  background-color: transparent;
+  border-radius: 5px;
+  width: 70px;
+  height: 70px;
+  margin-left: 5px;
+}

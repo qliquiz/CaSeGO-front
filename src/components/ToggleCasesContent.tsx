@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Case, { CaseProps } from './Case';
 import Item, { ItemProps } from './Item';
+import '../styles/toggle.scss';
 
 interface ToggleCasesContentProps {
   selectedCase: CaseProps | null;
@@ -26,11 +27,11 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
       const endpoint = selectedTab === "cases"
         ? "cases/cases"
         : `cases/weapons/${selectedCase?.id || 1}`;
-  
+
       try {
         const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/${endpoint}`);
         if (!response.ok) throw new Error('Ошибка загрузки данных');
-  
+
         const data = await response.json();
         const parsedData = data.data ? JSON.parse(data.data) : [];
         if (Array.isArray(parsedData)) {
@@ -49,56 +50,60 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, [selectedTab, selectedCase, setSelectedCase]);
-  
+
   if (loading) return <p>Загрузка...</p>;
   if (error) return <p>Ошибка: {error}</p>;
 
   const handleCaseClick = (caseItem: CaseProps) => {
+    setSelectedCase(null);
     setSelectedCase(caseItem);
     setShowRoulette(false);
   };
 
   return (
     <div>
-      <div>
-        <button onClick={() => setSelectedTab("cases")} className={selectedTab === "cases" ? "active" : ""}>
-          Кейсы
-        </button>
-        <button onClick={() => setSelectedTab("content")} className={selectedTab === "content" ? "active" : ""}>
-          Содержимое
-        </button>
-      </div>
+      <button onClick={() => setSelectedTab("cases")} className={selectedTab === "cases" ? "option" : "deactive option"}>
+        Кейсы
+      </button>
+      <button onClick={() => setSelectedTab("content")} className={selectedTab === "content" ? "option" : "deactive option"}>
+        Содержимое
+      </button>
 
-      <div className="case-list">
-        {cases.map((caseItem) => (
-          <button
-            key={caseItem.id}
-            onClick={() => handleCaseClick(caseItem)}
-            style={{ backgroundColor: selectedCase?.id === caseItem.id ? "lightblue" : "transparent" }}
-          >
-            <Case id={caseItem.id} name={caseItem.name} image={caseItem.image} />
-          </button>
-        ))}
-      </div>
-
-      {selectedTab === "content" && (
-        <div className="grid">
-          {items.map((item) => (
-            <Item
-              key={item.id}
-              id={item.id}
-              weapon_name={item.weapon_name}
-              skin_name={item.skin_name}
-              rarity={item.rarity}
-              steam_image={item.steam_image}
-              isLoser={item.isLoser}
-            />
-          ))}
+      <div className='options'>
+        <div className="case-list">
+          <div>
+            {cases.map((caseItem) => (
+              <button
+                className='case-button'
+                key={caseItem.id}
+                onClick={() => handleCaseClick(caseItem)}
+                style={{ boxShadow: selectedCase?.id === caseItem.id ? `${caseItem.id % 2 === 0 ? 'blue' : 'red'} 0px 0px 10px -3px` : "transparent 0px 0px 0px" }}
+              >
+                <Case id={caseItem.id} name={caseItem.name} image={caseItem.image} />
+              </button>
+            ))}
+          </div>
         </div>
-      )}
+
+        {selectedTab === "content" && (
+          <div className="grid">
+            {items.map((item) => (
+              <Item
+                key={item.id}
+                id={item.id}
+                weapon_name={item.weapon_name}
+                skin_name={item.skin_name}
+                rarity={item.rarity}
+                steam_image={item.steam_image}
+                isLoser={item.isLoser}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

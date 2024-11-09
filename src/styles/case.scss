@@ -1,34 +1,38 @@
 .case {
-  display: inline-block;
-  width: 70px;
-  height: 70px;
+  width: 100%;
+  height: 100%;
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .case-inner {
   border-radius: 5px;
-  width: 70px;
-  height: 70px;
-  position: relative;
-  top: -5px;
-  left: -18px;
+  width: 100%;
+  height: 100%;
   background: #282c36;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .case-inner img {
-  left: 2px;
-  top: 2px;
-  position: relative;
   width: 65px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
 }
 
 .case-text {
-  position: absolute;
-  bottom: -4px;
   background: #242531;
-  width: 70px;
+  width: 100%;
   height: 20px;
   border-radius: 0px 0px 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .case-text p {
@@ -37,8 +41,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 6px;
-  height: 10px;
-  line-height: 13px;
-  margin-top: 3px;
-  font-weight: 500;
+  line-height: 1;
+  margin: 0;
 }

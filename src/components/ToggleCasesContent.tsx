@@ -74,7 +74,6 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
 
       <div className='options'>
         <div className="case-list">
-          <div>
             {cases.map((caseItem) => (
               <button
                 className='case-button'
@@ -85,7 +84,6 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
                 <Case id={caseItem.id} name={caseItem.name} image={caseItem.image} />
               </button>
             ))}
-          </div>
         </div>
 
         {selectedTab === "content" && (

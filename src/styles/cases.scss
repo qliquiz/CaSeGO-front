@@ -60,14 +60,15 @@ $rouletteHeight: 112px;
 }
 
 .selected-case {
-  position: relative;
-  left: 19px;
   margin-top: 15px;
-  margin-bottom: -8px;
+  margin-bottom: -2px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 
   .case-text {
     border-radius: 0px 0px 10px 10px;
-    height: 26px;
+    height: 28px;
   }
 
   .case-text p {
@@ -82,8 +83,6 @@ $rouletteHeight: 112px;
 }
 
 .selected-case div:first-child img {
-  left: 4px;
-  top: 4px;
   width: 110px;
 }
 
@@ -92,6 +91,7 @@ $rouletteHeight: 112px;
 }
 
 .selected-case p:last-child {
-  font-size: 8.5px;
+  font-size: 9px;
   height: 30px;
+  padding-top: 4px;
 }

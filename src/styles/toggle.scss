@@ -40,4 +40,95 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  pointer-events: all;
+}
+
+.case-button.deactive {
+  pointer-events: none;
+}
+
+.item-list {
+  padding-top: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.item {
+  .ev-weapon {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    .ev-weapon-inner {
+      width: 70px;
+      height: 70px;
+    }
+    .ev-weapon-inner img {
+      position: absolute;
+      width: 60px;
+      height: auto;
+      left: 5px;
+    }
+    .ev-weapon-text {
+      position: absolute;
+      bottom: 2px;
+      background: #242531;
+      width: 70px;
+      height: 22px;
+    }
+    
+    .ev-weapon-text p {
+      color: #e4e4e4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 5px;
+      height: 8px;
+      line-height: 4px;
+    }
+    
+    .ev-weapon-text p:first-child {
+      font-weight: 600;
+    }
+
+    .ev-weapon-rarity {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      .milspec {
+        background: #4b69ff;
+      }
+      
+      .restricted {
+        background: #8847ff;
+      }
+      
+      .classified {
+        background: #d32ce6;
+      }
+      
+      .covert {
+        background: #eb4b4b;
+      }
+      
+      .rare {
+        background: #ffd700;
+      }
+      
+      .uncommon {
+        background: #ddd;
+      }
+      
+      .industrial-grade {
+        background: rgb(108, 151, 212)
+      }
+    }
+    
+  }
 }

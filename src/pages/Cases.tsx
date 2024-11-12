@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import { RouletteClass, weaponAttributes } from '../roulette.classes';
 import Item from '../components/Item';
-import '../styles/cases.scss'
+import { useUser } from '../contexts/UserContext';
+import '../styles/cases.scss';
 import '../styles/item.scss';
 import ToggleCasesContent from '../components/ToggleCasesContent';
 import Case, { CaseProps } from '../components/Case';
@@ -17,7 +18,7 @@ const Cases = ({
   weaponsCount,
   transitionDuration
 }: RouletteElementParams) => {
-
+  const { user } = useUser();
   const [rouletteWeapons, setRouletteWeapons] = useState<weaponAttributes[]>(weapons)
   const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1)
   const [isReplay, setIsReplay] = useState<boolean>(false)
@@ -28,6 +29,23 @@ const Cases = ({
   const [showRoulette, setShowRoulette] = useState<boolean>(false);
   const rouletteContainerRef = useRef<HTMLDivElement>(null)
   const weaponsRef = useRef<HTMLDivElement>(null)
+  const [error, setError] = useState<string | null>(null);
+
+  const addItem = async () => {
+    try {
+      const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/open`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: user?.id, item_id: 9 }),
+      });
+      if (!response.ok) setError('Ошибка при запросе');
+    } catch (error) {
+      setError((error as Error).message);
+    }
+  };
+  if (error) return <p>Ошибка: {error}</p>;
 
   function transitionEndHandler() {
     setWinHistory(winHistory.concat(rouletteWeapons[weaponPrizeId]))
@@ -72,6 +90,8 @@ const Cases = ({
       setWeaponPrizeId(roulette.spin())
       setIsReplay(true)
     }, 100)
+
+    addItem();
   }
 
   return (

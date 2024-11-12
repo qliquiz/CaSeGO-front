@@ -33,17 +33,14 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
         if (!response.ok) throw new Error('Ошибка загрузки данных');
 
         const data = await response.json();
-        // console.log(data);
         const parsedData = data.data ? JSON.parse(data.data) : [];
         console.log(parsedData);
         if (Array.isArray(parsedData)) {
           if (selectedTab === 'cases') {
             setCases(parsedData);
             setSelectedCase(selectedCase || parsedData[0] || null);
-          } else {
+          } else
             setItems(parsedData);
-            // console.log(items);
-          }
         } else throw new Error('Ошибка данных: ожидается массив');
       } catch (error: any) {
         setError(error.message);
@@ -96,7 +93,7 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
                   skin_name={item.skin_name}
                   rarity={item.rarity}
                   steam_image={item.steam_image}
-                  isLoser={item.isLoser}
+                  isLoser={false}
                 />
               </div>
             ))}

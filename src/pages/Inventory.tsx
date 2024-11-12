@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Item, { ItemProps } from '../components/Item';
-import '../styles/inventory.css';
+import '../styles/inventory.scss';
 
 const Inventory: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,14 +14,13 @@ const Inventory: React.FC = () => {
       try {
         const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/inventory/${id}`);
         if (!response.ok) throw new Error('Ошибка загрузки данных');
-        
+
         const data = await response.json();
         const parsedData: ItemProps[] = data.data ? JSON.parse(data.data) : [];
-        if (Array.isArray(parsedData)) {
+        if (Array.isArray(parsedData))
           setItems(parsedData);
-        } else {
+        else
           throw new Error("Ошибка данных: ожидается массив");
-        }
       } catch (error: any) {
         setError(error.message);
       } finally {
@@ -41,15 +40,17 @@ const Inventory: React.FC = () => {
       <h1>Инвентарь</h1>
       <div className="inventory-list">
         {items.map((item) => (
-          <Item
-            key={item.id}
-            id={item.id}
-            weapon_name={item.weapon_name}
-            skin_name={item.skin_name}
-            rarity={item.rarity}
-            steam_image={item.steam_image}
-            isLoser={item.isLoser}
-          />
+          <div className='inventory-item'>
+            <Item
+              key={item.id}
+              id={item.id}
+              weapon_name={item.weapon_name}
+              skin_name={item.skin_name}
+              rarity={item.rarity}
+              steam_image={item.steam_image}
+              isLoser={item.isLoser}
+            />
+          </div>
         ))}
       </div>
     </div>

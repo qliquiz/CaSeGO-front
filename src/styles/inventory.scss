@@ -1,0 +1,50 @@
+.inventory-page {
+  padding: 20px;
+}
+
+.inventory-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}
+
+.inventory-item {
+  .ev-weapon {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    .ev-weapon-inner {
+      width: 70px;
+      height: 70px;
+    }
+    .ev-weapon-inner img {
+      position: absolute;
+      width: 60px;
+      height: auto;
+      left: 5px;
+    }
+    .ev-weapon-text {
+      position: absolute;
+      bottom: 2px;
+      background: #242531;
+      width: 70px;
+      height: 22px;
+    }
+    
+    .ev-weapon-text p {
+      color: #e4e4e4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 5px;
+      height: 8px;
+      line-height: 4px;
+    }
+    
+    .ev-weapon-text p:first-child {
+      font-weight: 600;
+    }
+  }
+}

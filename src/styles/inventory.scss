@@ -1,5 +1,5 @@
 .inventory-page {
-  padding: 20px;
+  padding: 15px;
 }
 
 .inventory-list {
@@ -13,24 +13,24 @@
 .inventory-item {
   .ev-weapon {
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     .ev-weapon-inner {
-      width: 70px;
-      height: 70px;
+      width: 90px;
+      height: 90px;
     }
     .ev-weapon-inner img {
       position: absolute;
-      width: 60px;
+      width: 80px;
       height: auto;
-      left: 5px;
+      left: 7px;
     }
     .ev-weapon-text {
       position: absolute;
-      bottom: 2px;
+      bottom: 3px;
       background: #242531;
-      width: 70px;
-      height: 22px;
+      width: 90px;
+      height: 24px;
     }
     
     .ev-weapon-text p {
@@ -38,9 +38,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 5px;
-      height: 8px;
-      line-height: 4px;
+      font-size: 6px;
+      height: 10px;
+      line-height: 6px;
     }
     
     .ev-weapon-text p:first-child {

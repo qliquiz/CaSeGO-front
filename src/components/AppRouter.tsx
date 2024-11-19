@@ -5,7 +5,6 @@ import Cases from '../pages/Cases';
 import Profile from '../pages/Profile';
 import Error from '../pages/Error';
 import Navbar from './Navbar';
-import weapons from '../weapons.json'
 
 const AppRouter = () => {
   const weaponsCount = 100
@@ -19,7 +18,6 @@ const AppRouter = () => {
         <>
           <Navbar />
           <Cases
-            weapons={weapons}
             weaponsCount={weaponsCount}
             transitionDuration={transitionDuration}
           />

@@ -34,7 +34,7 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
 
         const data = await response.json();
         const parsedData = data.data ? JSON.parse(data.data) : [];
-        console.log(parsedData);
+        console.log('parsedData = ' + parsedData);
         if (Array.isArray(parsedData)) {
           if (selectedTab === 'cases') {
             setCases(parsedData);

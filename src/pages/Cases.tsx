@@ -1,98 +1,118 @@
-import { useRef, useState } from 'react';
-import { RouletteClass, weaponAttributes } from '../roulette.classes';
+import { useRef, useState, useEffect } from 'react';
+import { RouletteClass, WeaponAttributes } from '../roulette.classes';
 import Item from '../components/Item';
-import { useUser } from '../contexts/UserContext';
 import '../styles/cases.scss';
 import '../styles/item.scss';
 import ToggleCasesContent from '../components/ToggleCasesContent';
 import Case, { CaseProps } from '../components/Case';
 
-interface RouletteElementParams {
-  weapons: weaponAttributes[],
-  weaponsCount: number,
-  transitionDuration: number
+interface CasesProps {
+  weaponsCount: number;
+  transitionDuration: number;
 }
 
-const Cases = ({
-  weapons,
-  weaponsCount,
-  transitionDuration
-}: RouletteElementParams) => {
-  const { user } = useUser();
-  const [rouletteWeapons, setRouletteWeapons] = useState<weaponAttributes[]>(weapons)
-  const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1)
-  const [isReplay, setIsReplay] = useState<boolean>(false)
-  const [isSpin, setIsSpin] = useState<boolean>(false)
-  const [isSpinEnd, setIsSpinEnd] = useState<boolean>(false)
-  const [winHistory, setWinHistory] = useState<weaponAttributes[]>([])
+const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
+  const [rouletteWeapons, setRouletteWeapons] = useState<WeaponAttributes[]>([]);
+  const [weaponPrizeId, setWeaponPrizeId] = useState<number>(-1);
+  const [isReplay, setIsReplay] = useState<boolean>(false);
+  const [isSpin, setIsSpin] = useState<boolean>(false);
+  const [isSpinEnd, setIsSpinEnd] = useState<boolean>(false);
   const [selectedCase, setSelectedCase] = useState<CaseProps | null>(null);
   const [showRoulette, setShowRoulette] = useState<boolean>(false);
-  const rouletteContainerRef = useRef<HTMLDivElement>(null)
-  const weaponsRef = useRef<HTMLDivElement>(null)
+  const [isAnimationInterrupted, setIsAnimationInterrupted] = useState<boolean>(false);
+  const rouletteContainerRef = useRef<HTMLDivElement>(null);
+  const weaponsRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const addItem = async () => {
+  // Reset states when case is changed
+  useEffect(() => {
+    setIsAnimationInterrupted(false);
+    setIsSpin(false);
+    setIsSpinEnd(false);
+    setIsReplay(false);
+    setWeaponPrizeId(-1);
+  }, [selectedCase]);
+
+  const fetchCaseItems = async (caseId: number) => {
     try {
-      const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/open`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: user?.id, item_id: 9 }),
-      });
-      if (!response.ok) setError('Ошибка при запросе');
-    } catch (error) {
-      setError((error as Error).message);
+      const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/cases/weapons/${caseId}`);
+      if (!response.ok) throw new Error('Failed to load case items');
+      const data = await response.json();
+      const items = JSON.parse(data.data);
+      return items;
+    } catch (error: any) {
+      setError(error.message);
+      return [];
     }
   };
-  if (error) return <p>Ошибка: {error}</p>;
 
   function transitionEndHandler() {
-    setWinHistory(winHistory.concat(rouletteWeapons[weaponPrizeId]))
-    setIsSpin(false)
-    setIsSpinEnd(true)
+    if (!isAnimationInterrupted) {
+      setIsSpin(false);
+      setIsSpinEnd(true);
+    }
   }
 
   function prepare() {
-    weaponsRef.current!.style.transition = 'none'
-    weaponsRef.current!.style.left = '0px'
+    if (weaponsRef.current) {
+      weaponsRef.current.style.transition = 'none';
+      weaponsRef.current.style.left = '0px';
+    }
   }
 
-  function load() {
-    let winner = weapons[Math.floor(Math.random() * weapons.length)];
+  async function load() {
+    if (!selectedCase) return null;
+    const items = await fetchCaseItems(selectedCase.id);
+    if (!items.length) return null;
+
+    const winner = items[Math.floor(Math.random() * items.length)];
 
     const roulette = new RouletteClass({
       winner,
-      weapons,
+      caseItems: items,
       rouletteContainerRef,
       weaponsRef,
-      weaponsCount: weaponsCount,
-      transitionDuration: transitionDuration
+      weaponsCount,
+      transitionDuration
     });
 
-    roulette.set_weapons()
-    setRouletteWeapons(roulette.weapons)
+    roulette.set_weapons();
+    setRouletteWeapons(roulette.weapons);
 
-    return roulette
+    return roulette;
   }
 
-  function play() {
+  async function play() {
+    if (!selectedCase) return;
+    
     if (isReplay) {
-      prepare()
+      prepare();
     }
-    setIsSpin(true)
+    
+    setIsSpin(true);
     setShowRoulette(true);
+    setIsAnimationInterrupted(false);
 
-    const roulette = load()
+    const roulette = await load();
+    if (!roulette) {
+      setError('Failed to load case items');
+      setIsSpin(false);
+      return;
+    }
 
     setTimeout(() => {
-      setIsSpin(true)
-      setWeaponPrizeId(roulette.spin())
-      setIsReplay(true)
-    }, 100)
-
-    addItem();
+      setIsSpin(true);
+      setWeaponPrizeId(roulette.spin());
+      setIsReplay(true);
+    }, 100);
   }
+
+  // Handler for case selection
+  const handleCaseSelect = (newCase: CaseProps) => {
+    setIsAnimationInterrupted(true);
+    setSelectedCase(newCase);
+    setShowRoulette(false);
+  };
 
   return (
     <div>
@@ -106,26 +126,27 @@ const Cases = ({
               {rouletteWeapons.map((w, i) => (
                 <Item
                   key={i}
-                  id={i}
                   isLoser={(i !== weaponPrizeId) && !isSpin && isSpinEnd}
-                  weapon_name={w.weapon_name}
-                  skin_name={w.skin_name}
-                  rarity={w.rarity}
-                  steam_image={w.steam_image}
+                  {...w}
                 />
               ))}
             </div>
           </div>
         </div>
-      ) : (selectedCase ?
+      ) : selectedCase ? (
         <div className="selected-case">
-          <Case id={selectedCase.id} name={selectedCase.name} image={selectedCase.image} />
+          <Case {...selectedCase} />
         </div>
-        : <p>Choose a case</p>
+      ) : (
+        <p>Choose a case</p>
       )}
 
-      <button className='button' disabled={isSpin || !selectedCase} onClick={play}>
-        {isSpin ? 'Открывается...' : 'Открыть'}
+      <button 
+        className='button' 
+        disabled={!selectedCase} 
+        onClick={play}
+      >
+        {isSpin && !isAnimationInterrupted ? 'Opening...' : 'Open Case'}
       </button>
 
       <ToggleCasesContent
@@ -134,6 +155,8 @@ const Cases = ({
         setShowRoulette={setShowRoulette}
         showRoulette={showRoulette}
       />
+
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };

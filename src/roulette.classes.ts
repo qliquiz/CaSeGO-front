@@ -1,85 +1,60 @@
-import { Ref } from "react";
+import { RefObject } from "react";
 
-export interface weaponAttributes {
-  weapon_name: string,
-  skin_name: string,
-  rarity: string,
-  steam_image: string,
+export interface WeaponAttributes {
+  id: number;
+  weapon_name: string;
+  skin_name: string;
+  rarity: string;
+  steam_image: string;
 }
 
-// КЛАСС ОРУЖИЯ
+export interface RouletteAttributes {
+  winner: WeaponAttributes;
+  caseItems: WeaponAttributes[];
+  rouletteContainerRef: RefObject<HTMLDivElement>;
+  weaponsRef: RefObject<HTMLDivElement>;
+  weaponsCount?: number;
+  transitionDuration?: number;
+  itemWidth?: number;
+}
+
 export class Weapon {
-  id: number
-  weapon_name: string
-  skin_name: string
-  rarity: string
-  steam_image: string
+  id: number;
+  weapon_name: string;
+  skin_name: string;
+  rarity: string;
+  steam_image: string;
 
-  constructor(id: number, attrs: weaponAttributes) {
+  constructor(id: number, attrs: WeaponAttributes) {
     this.id = id;
-
-    // атрибуты с сервера
     this.weapon_name = attrs.weapon_name;
     this.skin_name = attrs.skin_name;
     this.rarity = attrs.rarity;
     this.steam_image = attrs.steam_image;
   }
-
 }
 
-export interface rouletteAttributes {
-  winner: weaponAttributes
-  weapons: weaponAttributes[]
-
-  rouletteContainerRef: Ref<HTMLElement>
-  weaponsRef: Ref<HTMLElement>
-
-  weaponsCount?: number
-  transitionDuration?: number
-  itemWidth?: number
-}
-
-// КЛАСС РУЛЕТКИ
 export class RouletteClass {
+  winner: WeaponAttributes;
+  caseItems: WeaponAttributes[];
+  rouletteWrapper: RefObject<HTMLDivElement>;
+  weaponWrapper: RefObject<HTMLDivElement>;
+  weapons: Weapon[];
+  weaponsCount: number;
+  weaponPrizeId: number;
+  transitionDuration: number;
+  itemWidth: number;
 
-  winner: weaponAttributes
-  allWeapons: weaponAttributes[]
-
-  rouletteWrapper: Ref<HTMLElement>
-  weaponWrapper: Ref<HTMLElement>
-
-  weapons: Weapon[]
-
-  weaponsCount: number
-  weaponPrizeId: number
-
-  transitionDuration: number
-
-  itemWidth: number
-
-  constructor(attrs: rouletteAttributes) {
-    // атрибуты для генерации массива weapons
+  constructor(attrs: RouletteAttributes) {
     this.winner = attrs.winner;
-    this.allWeapons = attrs.weapons;
-
-    // тут будет всё оружие (оружие-приз + оружие-актёры)
+    this.caseItems = attrs.caseItems;
     this.weapons = [];
-
-    // родительский DOM-элемент для рулетки
-    this.rouletteWrapper = attrs.weaponsRef;
-
-    // родительский DOM-элемент для DOM-элементов оружия (он вращается)
+    this.rouletteWrapper = attrs.rouletteContainerRef;
     this.weaponWrapper = attrs.weaponsRef;
-
-    // общее количество оружия
     this.weaponsCount = attrs.weaponsCount || 50;
-
-    // id приза
-    this.weaponPrizeId = this.randomRange(this.weaponsCount / 2, this.weaponsCount - 5)
-
-    this.transitionDuration = attrs.transitionDuration || 10
-
-    this.itemWidth = attrs.itemWidth || 110
+    this.weaponPrizeId = this.randomRange(this.weaponsCount / 2, this.weaponsCount - 5);
+    this.transitionDuration = attrs.transitionDuration || 10;
+    this.itemWidth = attrs.itemWidth || 110;
   }
 
   private randomRange = (min: number, max: number) => {
@@ -94,65 +69,50 @@ export class RouletteClass {
   }
 
   set_weapons = () => {
-    let weapons: Weapon[] = [] // объявляем массив оружия
-    let weapon_actors_len = this.allWeapons.length  // количество оружия пришедшее с бд
+    let weapons: Weapon[] = [];
+    const caseItemsLength = this.caseItems.length;
 
-    const set_weapon_actors = (from_i: number, to_i: number) => {
-      let j = 0
-      const createdWeapons: Weapon[] = []
-      for (let i = from_i; i <= to_i; i += 1) {
-        // создаем оружие с индексом i и атрибутами j
-        createdWeapons.push(new Weapon(i, this.allWeapons[j]))
-        j = (j === weapon_actors_len - 1) ? 0 : j + 1;
-      }
-      this.shuffle(createdWeapons)
-      return createdWeapons
-    };
-
-    // нет оружия с бд - ошибка
-    if (weapon_actors_len === 0) {
-      throw new Error('Ошибка! Нет актёров.');
+    if (caseItemsLength === 0) {
+      throw new Error('Error! No items in case.');
     }
 
-    /**
-     * сетаем оружия в размере количества
-     *  оружия в рулетке с 0 до id приза
-     */
-    weapons = weapons.concat(set_weapon_actors(0, this.weaponPrizeId - 1))
+    const set_weapon_actors = (from_i: number, to_i: number) => {
+      let j = 0;
+      const createdWeapons: Weapon[] = [];
+      for (let i = from_i; i <= to_i; i++) {
+        createdWeapons.push(new Weapon(i, this.caseItems[j]));
+        j = (j === caseItemsLength - 1) ? 0 : j + 1;
+      }
+      this.shuffle(createdWeapons);
+      return createdWeapons;
+    };
 
-    // создаем оружие приз
+    weapons = weapons.concat(set_weapon_actors(0, this.weaponPrizeId - 1));
     weapons[this.weaponPrizeId] = new Weapon(this.weaponPrizeId, this.winner);
-
-    /** сетаем оружия в id приза до конца */
-    weapons = weapons.concat(set_weapon_actors(this.weaponPrizeId + 1, this.weaponsCount - 1))
+    weapons = weapons.concat(set_weapon_actors(this.weaponPrizeId + 1, this.weaponsCount - 1));
     this.weapons = weapons;
   };
 
   spin = () => {
     let randStop = 0;
-    const screenWidth = window.innerWidth;
-    console.log('screenWidth = ' + screenWidth);
-    let el_weapon_width_1_2 = Math.floor(this.itemWidth / 2)
-    let el_weapon_width_1_10 = Math.floor(this.itemWidth / 10)
+    // Removed unused screenWidth variable
+    const el_weapon_width_1_2 = Math.floor(this.itemWidth / 2);
+    const el_weapon_width_1_10 = Math.floor(this.itemWidth / 10);
 
-    if (screenWidth < 400) {
-      randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
+    randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
       this.randomRange(el_weapon_width_1_10, (8 * el_weapon_width_1_10)) + 40;
-    } else {
-      randStop = (this.weaponPrizeId - 2) * this.itemWidth + el_weapon_width_1_2 +
-      this.randomRange(el_weapon_width_1_10, (8 * el_weapon_width_1_10)) + 40;
+
+    const wrapper = this.weaponWrapper.current;
+    if (wrapper) {
+      wrapper.style.transition = `left ${this.transitionDuration}s ease-out`;
+      
+      setTimeout(() => {
+        if (wrapper) {
+          wrapper.style.left = `-${randStop}px`;
+        }
+      }, 100);
     }
-    console.log('prize id = ' + this.weaponPrizeId);
-    console.log('random stop = ' + randStop);
 
-    // @ts-ignore
-    this.weaponWrapper.current.style.transition = `left ${this.transitionDuration}s ease-out`;
-
-    setTimeout(() => {
-      // @ts-ignore
-      this.weaponWrapper!.current.style.left = `-${randStop}px`;
-    }, 100);
-
-    return this.weaponPrizeId
+    return this.weaponPrizeId;
   }
 }

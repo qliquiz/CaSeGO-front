@@ -19,86 +19,156 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
   const [cases, setCases] = useState<CaseProps[]>([]);
   const [items, setItems] = useState<ItemProps[]>([]);
   const [selectedTab, setSelectedTab] = useState('cases');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingCases, setLoadingCases] = useState<boolean>(true);
+  const [loadingItems, setLoadingItems] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Загрузка кейсов
   useEffect(() => {
-    const fetchData = async () => {
-      const endpoint = selectedTab === 'cases'
-        ? 'cases/cases'
-        : `cases/weapons/${selectedCase?.id || 1}`;
-
+    const fetchCases = async () => {
       try {
-        const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/${endpoint}`);
+        setLoadingCases(true);
+        const response = await fetch('https://9lsgnf1b-3000.euw.devtunnels.ms/cases/cases');
         if (!response.ok) throw new Error('Ошибка загрузки данных');
 
         const data = await response.json();
         const parsedData = data.data ? JSON.parse(data.data) : [];
-        console.log('parsedData = ' + parsedData);
+
         if (Array.isArray(parsedData)) {
-          if (selectedTab === 'cases') {
-            setCases(parsedData);
-            setSelectedCase(selectedCase || parsedData[0] || null);
-          } else
-            setItems(parsedData);
-        } else throw new Error('Ошибка данных: ожидается массив');
+          setCases(parsedData);
+          if (!selectedCase) {
+            setSelectedCase(parsedData[0] || null);
+          }
+        } else {
+          throw new Error('Ошибка данных: ожидается массив');
+        }
       } catch (error: any) {
         setError(error.message);
       } finally {
-        setLoading(false);
+        setLoadingCases(false);
       }
     };
 
-    fetchData();
-  }, [selectedTab, selectedCase, setSelectedCase]);
+    fetchCases();
+  }, []);
 
-  if (loading) return <p>Загрузка...</p>;
-  if (error) return <p>Ошибка: {error}</p>;
+  // Загрузка предметов
+  useEffect(() => {
+    const fetchItems = async () => {
+      if (!selectedCase) return;
+
+      try {
+        setLoadingItems(true);
+        const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/cases/weapons/${selectedCase.id}`);
+        if (!response.ok) throw new Error('Ошибка загрузки данных');
+
+        const data = await response.json();
+        const parsedData = data.data ? JSON.parse(data.data) : [];
+
+        if (Array.isArray(parsedData)) {
+          setItems(parsedData);
+        } else {
+          throw new Error('Ошибка данных: ожидается массив');
+        }
+      } catch (error: any) {
+        setError(error.message);
+      } finally {
+        setLoadingItems(false);
+      }
+    };
+
+    if (selectedTab === 'content' && selectedCase) {
+      fetchItems();
+    }
+  }, [selectedTab, selectedCase?.id]);
 
   const handleCaseClick = (caseItem: CaseProps) => {
-    setSelectedCase(caseItem);
-    setShowRoulette(false);
+    if (selectedCase?.id !== caseItem.id) {
+      setSelectedCase(caseItem);
+      setShowRoulette(false);
+    }
   };
+
+  const handleTabClick = (tab: string) => {
+    if (tab !== selectedTab) {
+      setSelectedTab(tab);
+      setError(null);
+    }
+  };
+
+  const renderCases = () => (
+    <div className='case-list'>
+      {loadingCases ? (
+        <div className="loading-overlay">
+          <p>Загрузка кейсов...</p>
+        </div>
+      ) : (
+        cases.map((caseItem) => (
+          <div
+            className='case-button'
+            key={caseItem.id}
+            onClick={() => handleCaseClick(caseItem)}
+            style={{
+              boxShadow: selectedCase?.id === caseItem.id
+                ? `${caseItem.id % 2 === 0 ? 'blue' : 'red'} 0px 0px 10px -3px`
+                : 'transparent 0px 0px 0px'
+            }}
+          >
+            <Case
+              id={caseItem.id}
+              name={caseItem.name}
+              image={caseItem.image}
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const renderItems = () => (
+    <div className='item-list'>
+      {loadingItems ? (
+        <div className="loading-overlay">
+          <p>Загрузка предметов...</p>
+        </div>
+      ) : (
+        items.map((item) => (
+          <div className='item' key={item.id}>
+            <Item
+              id={item.id}
+              weapon_name={item.weapon_name}
+              skin_name={item.skin_name}
+              rarity={item.rarity}
+              steam_image={item.steam_image}
+              isLoser={false}
+            />
+          </div>
+        ))
+      )}
+    </div>
+  );
 
   return (
     <div>
-      <button onClick={() => setSelectedTab('cases')} className={selectedTab === 'cases' ? 'option' : 'deactive option'}>
-        Кейсы
-      </button>
-      <button onClick={() => setSelectedTab('content')} className={selectedTab === 'content' ? 'option' : 'deactive option'}>
-        Содержимое
-      </button>
+      <div className="toggle-buttons">
+        <button
+          onClick={() => handleTabClick('cases')}
+          className={selectedTab === 'cases' ? 'option' : 'deactive option'}
+        >
+          Кейсы
+        </button>
+        <button
+          onClick={() => handleTabClick('content')}
+          className={selectedTab === 'content' ? 'option' : 'deactive option'}
+        >
+          Содержимое
+        </button>
+      </div>
+
+      {error && <p className="error-message">{error}</p>}
 
       <div className='options'>
-        {selectedTab === 'cases' ?
-          <div className='case-list'>
-            {cases.map((caseItem) => (
-              <div
-                className='case-button'
-                key={caseItem.id}
-                onClick={() => handleCaseClick(caseItem)}
-                style={{ boxShadow: selectedCase?.id === caseItem.id ? `${caseItem.id % 2 === 0 ? 'blue' : 'red'} 0px 0px 10px -3px` : 'transparent 0px 0px 0px' }}
-              >
-                <Case id={caseItem.id} name={caseItem.name} image={caseItem.image} />
-              </div>
-            ))}
-          </div>
-          :
-          <div className='item-list'>
-            {items.map((item) => (
-              <div className='item' key={item.id}> 
-                <Item
-                  id={item.id}
-                  weapon_name={item.weapon_name}
-                  skin_name={item.skin_name}
-                  rarity={item.rarity}
-                  steam_image={item.steam_image}
-                  isLoser={false}
-                />
-              </div>
-            ))}
-          </div>
-        }
+        {selectedTab === 'cases' ? renderCases() : renderItems()}
       </div>
     </div>
   );

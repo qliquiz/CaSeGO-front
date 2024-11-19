@@ -5,6 +5,7 @@ import '../styles/cases.scss';
 import '../styles/item.scss';
 import ToggleCasesContent from '../components/ToggleCasesContent';
 import Case, { CaseProps } from '../components/Case';
+import { useUser } from '../contexts/UserContext';
 
 interface CasesProps {
   weaponsCount: number;
@@ -17,21 +18,35 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
   const [isReplay, setIsReplay] = useState<boolean>(false);
   const [isSpin, setIsSpin] = useState<boolean>(false);
   const [isSpinEnd, setIsSpinEnd] = useState<boolean>(false);
+  // Removed unused winHistory state
   const [selectedCase, setSelectedCase] = useState<CaseProps | null>(null);
   const [showRoulette, setShowRoulette] = useState<boolean>(false);
   const [isAnimationInterrupted, setIsAnimationInterrupted] = useState<boolean>(false);
   const rouletteContainerRef = useRef<HTMLDivElement>(null);
   const weaponsRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useUser();
 
-  // Reset states when case is changed
-  useEffect(() => {
-    setIsAnimationInterrupted(false);
-    setIsSpin(false);
-    setIsSpinEnd(false);
-    setIsReplay(false);
-    setWeaponPrizeId(-1);
-  }, [selectedCase]);
+  const addItemToInventory = async (itemId: number) => {
+    try {
+      const response = await fetch(`https://9lsgnf1b-3000.euw.devtunnels.ms/open`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: user?.id,
+          item_id: itemId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка при добавлении предмета в инвентарь');
+      }
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
 
   const fetchCaseItems = async (caseId: number) => {
     try {
@@ -83,12 +98,12 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
   }
 
   async function play() {
-    if (!selectedCase) return;
-    
+    if (!selectedCase || !user?.id) return;
+
     if (isReplay) {
       prepare();
     }
-    
+
     setIsSpin(true);
     setShowRoulette(true);
     setIsAnimationInterrupted(false);
@@ -100,6 +115,11 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
       return;
     }
 
+    const winningItemId = roulette.winner.id;
+
+    // Добавляем предмет в инвентарь сразу после определения победителя
+    await addItemToInventory(winningItemId);
+
     setTimeout(() => {
       setIsSpin(true);
       setWeaponPrizeId(roulette.spin());
@@ -107,12 +127,14 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
     }, 100);
   }
 
-  // Handler for case selection
-  const handleCaseSelect = (newCase: CaseProps) => {
-    setIsAnimationInterrupted(true);
-    setSelectedCase(newCase);
-    setShowRoulette(false);
-  };
+  // Reset states when case is changed
+  useEffect(() => {
+    setIsAnimationInterrupted(false);
+    setIsSpin(false);
+    setIsSpinEnd(false);
+    setIsReplay(false);
+    setWeaponPrizeId(-1);
+  }, [selectedCase]);
 
   return (
     <div>
@@ -141,9 +163,9 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
         <p>Choose a case</p>
       )}
 
-      <button 
-        className='button' 
-        disabled={!selectedCase} 
+      <button
+        className='button'
+        disabled={!selectedCase || !user?.id}
         onClick={play}
       >
         {isSpin && !isAnimationInterrupted ? 'Opening...' : 'Open Case'}

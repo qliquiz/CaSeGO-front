@@ -138,7 +138,7 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
 
   return (
     <div>
-      <h1>Cases</h1>
+      <h2>Cases</h2>
 
       {showRoulette ? (
         <div className='roulette-wrapper' ref={rouletteContainerRef}>
@@ -160,7 +160,7 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
           <Case {...selectedCase} />
         </div>
       ) : (
-        <p>Choose a case</p>
+        <p className='main-case-load'>Загрузка...</p>
       )}
 
       <button
@@ -168,7 +168,7 @@ const Cases = ({ weaponsCount, transitionDuration }: CasesProps) => {
         disabled={!selectedCase || !user?.id}
         onClick={play}
       >
-        {isSpin && !isAnimationInterrupted ? 'Opening...' : 'Open Case'}
+        {isSpin && !isAnimationInterrupted ? 'Opening...' : 'Open'}
       </button>
 
       <ToggleCasesContent

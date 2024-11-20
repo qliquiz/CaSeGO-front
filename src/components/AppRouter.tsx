@@ -13,17 +13,17 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Start />} />
-      <Route path="/inventory/:id" element={<><Navbar /><Inventory /></>} />
+      <Route path="/inventory/:id" element={<><Inventory /><Navbar /></>} />
       <Route path="/cases" element={
         <>
-          <Navbar />
           <Cases
             weaponsCount={weaponsCount}
             transitionDuration={transitionDuration}
           />
+          <Navbar />
         </>
       } />
-      <Route path="/profile/:id" element={<><Navbar /><Profile /></>} />
+      <Route path="/profile/:id" element={<><Profile /><Navbar /></>} />
       <Route path="*" element={<Error />} />
     </Routes>
   );

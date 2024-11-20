@@ -1,5 +1,12 @@
 $rouletteHeight: 112px;
 
+.main-case-load {
+  margin-top: 15px;
+  position: relative;
+  height: 112px;
+  align-content: center;
+}
+
 .roulette-wrapper {
   margin-top: 15px;
   position: relative;
@@ -83,7 +90,9 @@ $rouletteHeight: 112px;
 }
 
 .selected-case div:first-child img {
-  width: 110px;
+  width: 80%;
+  height: auto;
+  margin: auto;
 }
 
 .selected-case div:last-child {
@@ -91,7 +100,7 @@ $rouletteHeight: 112px;
 }
 
 .selected-case p:last-child {
-  font-size: 8px;
+  font-size: 9px;
   height: 30px;
   padding-top: 5px;
 }

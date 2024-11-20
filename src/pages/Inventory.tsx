@@ -31,13 +31,13 @@ const Inventory: React.FC = () => {
     fetchInventory();
   }, [id]);
 
-  if (loading) return <p>Загрузка инвентаря...</p>;
+  if (loading) return <p style={{ 'paddingTop': '15px' }}>Загрузка инвентаря...</p>;
   if (error) return <p>Ошибка: {error}</p>;
   if (!items.length) return <p>Инвентарь пока пуст</p>;
 
   return (
     <div className="inventory-page">
-      <h1>Инвентарь</h1>
+      <h1>Inventory</h1>
       <div className="inventory-list">
         {items.map((item) => (
           <div className='inventory-item'>

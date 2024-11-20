@@ -110,7 +110,8 @@ const ToggleCasesContent: React.FC<ToggleCasesContentProps> = ({
             onClick={() => handleCaseClick(caseItem)}
             style={{
               boxShadow: selectedCase?.id === caseItem.id
-                ? `${caseItem.id % 2 === 0 ? 'blue' : 'red'} 0px 0px 10px -3px`
+                // ? `${caseItem.id % 2 === 0 ? 'blue' : 'red'} 0px 0px 10px -5px`
+                ? `white 0px 0px 10px -5px`
                 : 'transparent 0px 0px 0px'
             }}
           >
